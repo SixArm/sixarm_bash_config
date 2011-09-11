@@ -1,5 +1,32 @@
+## List files
+alias l='ls -CF'
+alias ll='ls -l'
+alias la='ls -A'
 
-## Fast jumping up directories
+# Directory jumps
+[ -d /d ] && alias d="cd /d/; cd "
+
+# Our editor is 'emacs' with no window (if available) or vi.
+hash most 2>&- && alias e='emacs -nw' || alias e='vi'
+
+# Use rync with settings for typical mirroring
+alias rs='rsync --archive --compress --partial --partial-dir==.rsync-partial-dir --progress --verbose'
+
+# Our pager is 'most' (if available) or 'more' 
+hash most 2>&- && alias m='most' || alias m='more'
+
+# Apache webserver control - this is so 'apache' command works cross-platform
+[ -e /etc/init.d/apache2 ] && alias apache='sudo /etc/init.d/apache2 '
+[ -e /etc/init.d/httpd ] && alias apache='sudo /etc/init.d/httpd '
+
+# Frequent apps and paths
+[ -e /opt/rubymine/bin/rubymine.sh ] && alias rubymine='/opt/rubymine/bin/rubymine.sh'
+[ -e /opt/firefox/firefox ] && alias firefox='/opt/firefox/firefox'
+
+# Ruby On Rails Restart - Phusion Passenger in the app's top directory
+alias rrr='touch tmp/restart.txt'
+
+## Fast jump up directories
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -7,29 +34,6 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
-
-## Frequently used apps
-alias emacs='e -nw'
-alias emacs='emacs -nw'
-alias rubymine='/opt/rubymine/bin/rubymine.sh'
-alias firefox='/opt/firefox/firefox'
-
-## Quick file listings
-alias l='ls -CF'
-alias ll='ls -l'
-alias la='ls -A'
-
-# Directory 
-[ -d /d ] && alias d="cd /d/; cd "
-
-# Editor is emacs with no window, i.e. launch emacs in the current shell
-alias e='emacs -nw'
-
-alias ack='ack-grep'
-
-# Apache
-alias apache='sudo /etc/init.d/apache2 '
-
-# Ruby On Rails Restart for Phusion Passenger in the app's top directory
-alias rrr='touch tmp/restart.txt'
+alias .........='cd ../../../../../../../..'
+alias ..........='cd ../../../../../../../../..'
 
