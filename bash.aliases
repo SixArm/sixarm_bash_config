@@ -1,27 +1,28 @@
 ## List files
-alias l='ls -CF'
-alias ll='ls -l'
-alias la='ls -A'
+alias l='ls -1AF'
+alias ll='ls -lA'
 
-# Directory jumps
+# d = directory jump
 [ -d /d ] && alias d="cd /d/; cd "
 
-# Our editor is 'emacs' with no window (if available) or vi.
+# e = edit with emacs || vi.
 hash most 2>&- && alias e='emacs -nw' || alias e='vi'
 
-# Use rync with settings for typical mirroring
+# rs = rsync with settings for typical mirroring
 alias rs='rsync --archive --compress --partial --partial-dir==.rsync-partial-dir --progress --verbose'
 
-# Our pager is 'most' (if available) or 'more' 
+# m = most || more
 hash most 2>&- && alias m='most' || alias m='more'
 
-# Apache webserver control - this is so 'apache' command works cross-platform
+# apache = /etc/init.d/apaache2 || /etc/initd.httpd
 [ -e /etc/init.d/apache2 ] && alias apache='sudo /etc/init.d/apache2 '
 [ -e /etc/init.d/httpd ] && alias apache='sudo /etc/init.d/httpd '
 
-# Frequent apps and paths
-[ -e /opt/rubymine/bin/rubymine.sh ] && alias rubymine='/opt/rubymine/bin/rubymine.sh'
+# firefox
 [ -e /opt/firefox/firefox ] && alias firefox='/opt/firefox/firefox'
+
+# rubymine
+[ -e /opt/rubymine/bin/rubymine.sh ] && alias rubymine='/opt/rubymine/bin/rubymine.sh'
 
 # Ruby On Rails Restart - Phusion Passenger in the app's top directory
 alias rrr='touch tmp/restart.txt'
