@@ -33,17 +33,6 @@ PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 #    ;;
 #esac
 
-# enable bash completion in interactive shells
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-  . /etc/bash_completion
-fi
-
-for file in /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
-  if [ -f $file ]; then
-    . $file
-  fi
-done
-
 # Don't use ^D to exit
 set -o ignoreeof
 
@@ -52,6 +41,22 @@ set -o ignoreeof
 
 # turn on minor directory spellchecking for `cd`
 shopt -s cdspell
+
+
+##############################################################
+#                      Includes
+##############################################################
+
+for file in /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
+  if [ -f $file ]; then
+    . $file
+  fi
+done
+
+# enable bash completion in interactive shells
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
+fi
 
 
 ##############################################################
@@ -96,5 +101,4 @@ case "`uname`" in
         export CLASSPATH=/home/tkirk/apps/tomcat/common/lib/jsp-api.jar:/home/tkirk/apps/tomcat/common/lib/servlet-api.jar
     ;;
 esac
-
 
