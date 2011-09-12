@@ -38,7 +38,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 fi
 
-for file in /etc/bash_setuprompt /etc/bash_sudo_hint /etc/bash_command_not_found ~/.bash_aliases; do
+for file in /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
   if [ -f $file ]; then
     . $file
   fi
