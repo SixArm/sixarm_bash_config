@@ -47,7 +47,7 @@ shopt -s cdspell
 #                      Includes
 ##############################################################
 
-for file in /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
+for file in /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
   if [ -f $file ]; then
     . $file
   fi
@@ -59,18 +59,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 
-##############################################################
-#                      History
-##############################################################
-
-# Don't put duplicate lines in the history.
-export HISTCONTROL=ignoredups
-
-# huge hist files aren't a problem
-export HISTFILESIZE=1000000
-
-# and huge history lists are very useful
-export HISTSIZE=100000
 
 # nearly nothing I work on will fit in the default of 64m, so embiggen this
 export MAVEN_OPTS=-Xmx512m
