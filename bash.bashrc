@@ -12,7 +12,7 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, overwrite the one in /etc/profile)
@@ -34,15 +34,15 @@ PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
 #esac
 
 # enable bash completion in interactive shells
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
 fi
 
-# enable bash aliases if the user has an aliases file
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
+for file in /etc/bash_setuprompt /etc/bash_sudo_hint /etc/bash_command_not_found ~/.bash_aliases; do
+  if [ -f $file ]; then
+    . $file
+  fi
+done
 
 # Don't use ^D to exit
 set -o ignoreeof
@@ -98,62 +98,3 @@ case "`uname`" in
 esac
 
 
-###################################################
-#  Functions
-###################################################
-
-#--------------------------------------------------
-#    Initializes informative and pretty prompts
-#--------------------------------------------------
-function setprompt {
-
-    #define the colors
-    local    BLUE="\[\033[1;34m\]"
-    local    LIGHT_GRAY="\[\033[0;37m\]"
-    local    DARK_GRAY="\[\033[1;30m\]"
-    local    RED="\[\033[1;31m\]"
-    local    BOLD_WHITE="\[\033[1;37m\]"
-    local    NO_COLOR="\[\033[0m\]"
-
-    # The prompt will look something like this: 
-    #[ 9287 ][ ~ ]
-    # [tkirk@tkirk] $ 
-
-    # since the shell windows on some systems are white, and some are black, some of the colors need tweaking
-    case "`uname`" in
-        
-        CYGWIN* | Linux*)
-            # black background
-            historyBlock="$BLUE[ $LIGHT_GRAY\!$BLUE ]"
-            pathBlock="$BLUE[ $RED\w$BLUE ]"
-            userHostBlock="$BLUE[$RED\u$LIGHT_GRAY"@"$RED\h$BLUE]"
-            #promptChar="$BOLD_WHITE\$$LIGHT_GRAY"
-            promptChar="$BOLD_WHITE\$$NO_COLOR"
-            
-            ps2arrow="$BLUE-$BOLD_WHITE> $NO_COLOR"
-        ;;
-                
-        # something-with-a-white-background)
-            # BOLD_WHITE background
-            #historyBlock="$BLUE[ $DARK_GRAY\!$BLUE ]"
-            #pathBlock="$BLUE[ $RED\w$BLUE ]"
-            #userHostBlock="$BLUE[$RED\u$DARK_GRAY"@"$RED\h$BLUE]"
-            #promptChar="$DARK_GRAY\$$NO_COLOR"    
-                    
-            #ps2arrow="$BLUE-$DARK_GRAY> $NO_COLOR"
-        #;;
-                
-        *)
-            unameString=`uname`
-            echo "Unknown environment detected, not setting pretty prompt.  Edit .bashrc to account for $unameString."
-            return
-        ;;
-            
-    esac
-    
-    # prompt structure
-    PS1="\n$historyBlock$pathBlock\n $userHostBlock $promptChar "
-    PS2="$ps2arrow"
-}
-
-#-----------------
