@@ -13,4 +13,8 @@ export HISTCONTROL=ignoredups
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
+# store history by appending lines, not overwriting
+shopt -s histappend
 
+# store all commands to disk
+export PROMPT_COMMAND='history -a'
