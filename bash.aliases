@@ -6,7 +6,7 @@ alias ll='ls -lA'
 [ -d /d ] && alias d="cd /d/; cd "
 
 # e = edit with emacs || vi.
-hash most 2>&- && alias e='emacs -nw' || alias e='vi'
+hash emacs 2>&- && alias e='emacs -nw' || alias e='vi'
 
 # rs = rsync with settings for typical mirroring;
 # no partial because we may not have partial write security.
