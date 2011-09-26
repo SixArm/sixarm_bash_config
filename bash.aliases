@@ -1,23 +1,45 @@
-## List files
-alias l='ls -1AF'
-alias ll='ls -lA'
+## Fast jump up directories
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
+alias ........='cd ../../../../../../..'
+alias .........='cd ../../../../../../../..'
+alias ..........='cd ../../../../../../../../..'
+
+## One Letter Shortcuts
 
 # d = directory jump
 [ -d /d ] && alias d="cd /d/; cd "
 
-# e = edit with emacs || vi.
+# e = edit with emacs || vi
 hash most 2>&- && alias e='emacs -nw' || alias e='vi'
 
-# rs = rsync with settings for typical mirroring;
-# no partial because we may not have partial write security.
-alias rs='rsync --archive --compress --progress --verbose'
+# f = find fast
+hash ack-grep 2>&- && alias f='ack-grep' || alias f='find . | xargs grep '
+
+# g = git
+alias g='git'
+
+# l = list files
+alias l='ls -1AF'
 
 # m = most || more
 hash most 2>&- && alias m='most' || alias m='more'
 
-# apache = /etc/init.d/apaache2 || /etc/initd.httpd
-[ -e /etc/init.d/apache2 ] && alias apache='sudo /etc/init.d/apache2 '
+## Administration
+
+# rs = rsync with settings for typical mirroring; no partials because we may not have security.
+alias rs='rsync --archive --compress --progress --update --verbose'
+
+## Applications
+
+# apache = /etc/init.d/apache2 || /etc/initd.httpd
 [ -e /etc/init.d/httpd ] && alias apache='sudo /etc/init.d/httpd '
+[ -e /etc/init.d/apache2 ] && alias apache='sudo /etc/init.d/apache2 '
 
 # firefox
 [ -e /opt/firefox/firefox ] && alias firefox='/opt/firefox/firefox'
@@ -28,14 +50,11 @@ hash most 2>&- && alias m='most' || alias m='more'
 # Ruby On Rails Restart - Phusion Passenger in the app's top directory
 alias rrr='touch tmp/restart.txt'
 
-## Fast jump up directories
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
-alias .......='cd ../../../../../..'
-alias ........='cd ../../../../../../..'
-alias .........='cd ../../../../../../../..'
-alias ..........='cd ../../../../../../../../..'
+## Bundle for Ruby
+
+# bi => bundle install with best isolation options
+alias bi='bundle install --binstubs --path vendor/bundle'
+
+# bx => bundle exec 
+alias bx='bundle exec'
 
