@@ -15,8 +15,8 @@ alias ..........='cd ../../../../../../../../..'
 # d = directory jump
 [ -d /d ] && alias d="cd /d/; cd "
 
-# e = edit with emacs || vi
-hash most 2>&- && alias e='emacs -nw' || alias e='vi'
+# e = edit using emacs || vi
+hash emacs 2>&- && alias e='emacs -nw' || alias e='vi'
 
 # f = find fast
 hash ack-grep 2>&- && alias f='ack-grep' || alias f='find . | xargs grep '
