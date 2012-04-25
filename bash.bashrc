@@ -16,8 +16,10 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set a fancy prompt (non-color, overwrite the one in /etc/profile)
-PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 
+# set a plain prompt
+PS1='$ '
 
 # set a prefix for bash script debugging output that shows
 # the script name, line number and function name.
@@ -47,15 +49,18 @@ shopt -s cdspell
 #                      Includes
 ##############################################################
 
-for file in /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
-  if [ -f $file ]; then
-    . $file
-  fi
+for file in /etc/bash_aliases /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
+  [ -f $file ] && . $file
 done
 
+[ -f /etc/bash_aliases ] && source /etc/bash_completion
+for f in /etc/bash_aliases.d/* ~/.bash_aliases.d; do source $f; done
+
 # enable bash completion in interactive shells
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-  . /etc/bash_completion
+if shopt -oq posix
+then
+  [ -f /etc/bash_completion ] && source /etc/bash_completion
+  for f in /etc/bash_completion.d/* ~/.bash_completion.d; do source $f; done
 fi
 
 
