@@ -49,18 +49,21 @@ shopt -s cdspell
 #                      Includes
 ##############################################################
 
-for file in /etc/bash_aliases /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh ~/.bash_aliases; do
+for file in /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh do
   [ -f $file ] && . $file
 done
 
-[ -f /etc/bash_aliases ] && source /etc/bash_completion
-for f in /etc/bash_aliases.d/* ~/.bash_aliases.d; do source $f; done
+x=bash_scripts
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
+
+x=bash_aliases
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
 
 # enable bash completion in interactive shells
 if shopt -oq posix
 then
-  [ -f /etc/bash_completion ] && source /etc/bash_completion
-  for f in /etc/bash_completion.d/* ~/.bash_completion.d; do source $f; done
+  x=bash_completion
+  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
 fi
 
 
