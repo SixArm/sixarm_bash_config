@@ -49,27 +49,18 @@ shopt -s cdspell
 #                      Includes
 ##############################################################
 
-for file in /etc/bash_history.sh /etc/bash_setuprompt.sh /etc/bash_sudo_hint.sh /etc/bash_command_not_found.sh do
-  [ -f $file ] && . $file
-done
-
 x=bash_scripts
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f ] && source $f; done
 
 x=bash_aliases
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f ] && source $f; done
 
 # enable bash completion in interactive shells
 if shopt -oq posix
 then
   x=bash_completion
-  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do source $f; done
+  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f] && source $f; done
 fi
-
-
-
-# nearly nothing I work on will fit in the default of 64m, so embiggen this
-export MAVEN_OPTS=-Xmx512m
 
 
 ##############################################################
