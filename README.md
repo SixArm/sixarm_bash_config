@@ -1,4 +1,4 @@
-# SixArm.com » Bash shell » /etc/bash* files for system configuration
+# SixArm.com » Bash » /etc/bash* files for system setup
 
 We create these files and directories in <code>/etc</code>:
 
