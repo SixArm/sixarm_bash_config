@@ -4,7 +4,7 @@
 [ -d /d ] && alias d="cd /d/; cd "
 
 # e = edit using emacs || vi
-hash emacs 2>&- && alias e='emacs -nw' || alias e='vi'
+hash emacs 2>&- && alias e='emacs -nw --color=no' || alias e='vi'
 
 # f = find fast
 hash ack-grep 2>&- && alias f='ack-grep' || hash ack 2>&- && alias f='ack' || alias f='find . | xargs grep '
