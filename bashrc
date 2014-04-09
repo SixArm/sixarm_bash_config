@@ -1,14 +1,33 @@
 # System-wide bashrc file for interactive bash(1) shells.
-# Use this file to set up bash aliases and functions. 
+# Use this file to set up aliases, functions, and completions.
 #
-# To enable the settings / commands in this file for login shells as well,
-# this file has to be sourced in /etc/profile.# 
+# To enable these items for login shells as well, 
+# we can source this file in /etc/profile.
 #
-# ## Introduction: how is bashrc is loaded
+# ## What we load
+#
+# This bashrc script will source all these locations: 
+#    
+#    /etc/bash_scripts
+#    /etc/bash_scripts.d/*
+#    ~/.bash_scripts
+#    ~/.bash_scripts.d/*
+#    
+#    /etc/bash_aliases
+#    /etc/bash_aliases.d/*
+#    ~/.bash_aliases
+#    ~/.bash_aliases.d/*
+#    
+#    /etc/bash_completion
+#    /etc/bash_completion.d/*
+#    ~/.bash_completion
+#    ~/.bash_completion.d/*
+#
+# ## Load details
 #
 # Since /etc/bashrc is typically included by ~/.bashrc,
-# and read every time a shell starts up, you can use the
-# file to include bash aliases and functions. 
+# and read every time a shell starts up, we can use 
+# the /etc/bashrc file to include aliases, functions, and completions. 
 #
 # This is useful because bash aliases and functions do not 
 # behave like bash environment variables; the bash aliases 
@@ -136,7 +155,7 @@ x=bash_aliases
 for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
 x=bash_completion
-# we only need completion if we're in an interactive shel?
+# we only need completion when we're in an interactive shell
 if shopt -oq posix
 then
   for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f] && source $f; done
