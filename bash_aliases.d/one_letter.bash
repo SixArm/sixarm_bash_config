@@ -12,9 +12,6 @@ hash ack-grep 2>&- && alias f='ack-grep' || hash ack 2>&- && alias f='ack' || al
 # g = git
 alias g='git'
 
-# l = list files
-alias l='ls -1AF'
-
 # m = most || more
 hash most 2>&- && alias m='most' || alias m='more'
 
