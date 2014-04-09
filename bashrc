@@ -23,16 +23,16 @@
 #    ~/.bash_functions
 #    ~/.bash_functions.d/*
 #
-#    /etc/bash_completion
-#    /etc/bash_completion.d/*
-#    ~/.bash_completion
-#    ~/.bash_completion.d/*
+#    /etc/bash_completions
+#    /etc/bash_completions.d/*
+#    ~/.bash_completions
+#    ~/.bash_completions.d/*
 #
 # ## Load details
 #
 # Since /etc/bashrc is typically included by ~/.bashrc,
-# and read every time a shell starts up, we can use 
-# the /etc/bashrc file to include aliases, functions, and completions. 
+# and read every time a shell starts up, we can use /etc/bashrc 
+# file to include aliases, functions, and completions. 
 #
 # This is useful because bash aliases and functions do not 
 # behave like bash environment variables; the bash aliases 
@@ -162,8 +162,8 @@ for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 x=bash_functions
 for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
-x=bash_completion
-# we only need completion when we're in an interactive shell
+x=bash_completions
+# we only need completions when we're in an interactive shell
 if shopt -oq posix
 then
   for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f] && source $f; done
