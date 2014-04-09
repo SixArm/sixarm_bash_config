@@ -1,0 +1,461 @@
+# calibre Bash Shell Completion
+_calibre()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help --with-library --start-in-tray -v --verbose --no-update-check --ignore-plugins -s --shutdown-running-calibre"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(lrf|rar|zip|rtf|lit|txt|txtz|text|htm|xhtm|html|htmlz|xhtml|pdf|pdb|updb|pdr|prc|mobi|azw|doc|epub|fb2|djv|djvu|lrx|cbr|cbz|cbc|oebzip|rb|imp|odt|chm|tpz|azw1|pml|pmlz|mbp|tan|snb|xps|oxps|azw4|book|zbf|pobi|docx|md|textile|markdown|ibook|iba|azw3|ps|LRF|RAR|ZIP|RTF|LIT|TXT|TXTZ|TEXT|HTM|XHTM|HTML|HTMLZ|XHTML|PDF|PDB|UPDB|PDR|PRC|MOBI|AZW|DOC|EPUB|FB2|DJV|DJVU|LRX|CBR|CBZ|CBC|OEBZIP|RB|IMP|ODT|CHM|TPZ|AZW1|PML|PMLZ|MBP|TAN|SNB|XPS|OXPS|AZW4|BOOK|ZBF|POBI|DOCX|MD|TEXTILE|MARKDOWN|IBOOK|IBA|AZW3|PS)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _calibre calibre
+
+_lrf2lrs()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help -o --output --dont-output-resources --verbose"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(lrf|LRF)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _lrf2lrs lrf2lrs
+
+_ebook_meta()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help -t --title -a --authors --title-sort --author-sort --cover -c --comments -p --publisher --category -s --series -i --index -r --rating --isbn --tags -k --book-producer -l --language -d --date --get-cover --to-opf --from-opf --lrf-bookid"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -c )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      --to-opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      --from-opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -c )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      --to-opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      --from-opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(rtf|prc|azw1|odt|cbr|pml|rar|cbz|azw4|htmlz|txt|updb|zip|oebzip|chm|lit|imp|html|txtz|fb2|docx|azw3|snb|rb|lrf|tpz|opf|lrx|epub|mobi|pmlz|pobi|pdf|pdb|azw|RTF|PRC|AZW1|ODT|CBR|PML|RAR|CBZ|AZW4|HTMLZ|TXT|UPDB|ZIP|OEBZIP|CHM|LIT|IMP|HTML|TXTZ|FB2|DOCX|AZW3|SNB|RB|LRF|TPZ|OPF|LRX|EPUB|MOBI|PMLZ|POBI|PDF|PDB|AZW)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _ebook_meta ebook-meta
+
+_ebook_polish()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help -e --embed-fonts -f --subset-fonts -c --cover -o --opf -j --jacket --remove-jacket -p --smarten-punctuation --verbose"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -c )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      --opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      -o )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -c )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      --opf )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      -o )
+           _filedir '@(opf)'
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(azw3|epub|AZW3|EPUB)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _ebook_polish ebook-polish
+
+_lrfviewer()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help --verbose --visual-debug --disable-hyphenation --white-background --profile"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(lrf|LRF)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _lrfviewer lrfviewer
+
+_ebook_viewer()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help --raise-window -f --full-screen --fullscreen --debug-javascript --open-at"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(azw|azw3|azw4|cbc|cbr|cbz|chm|djv|djvu|docx|downloaded_recipe|epub|fb2|htm|html|htmlz|lit|lrf|markdown|md|mobi|odt|opf|pdb|pdf|pml|pmlz|pobi|prc|rb|recipe|rtf|shtm|shtml|snb|tcr|text|textile|txt|txtz|updb|xhtm|xhtml|AZW|AZW3|AZW4|CBC|CBR|CBZ|CHM|DJV|DJVU|DOCX|DOWNLOADED_RECIPE|EPUB|FB2|HTM|HTML|HTMLZ|LIT|LRF|MARKDOWN|MD|MOBI|ODT|OPF|PDB|PDF|PML|PMLZ|POBI|PRC|RB|RECIPE|RTF|SHTM|SHTML|SNB|TCR|TEXT|TEXTILE|TXT|TXTZ|UPDB|XHTM|XHTML)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _ebook_viewer ebook-viewer
+
+_fetch_ebook_metadata()
+{
+    local cur opts
+    local IFS=$'|\t'
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    opts="--version|-h|--help|-t|--title|-a|--authors|-i|--isbn|-v|--verbose|-o|--opf|-c|--cover|-d|--timeout"
+    words=""
+
+    case "${cur}" in
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+      *  )
+         COMPREPLY=( $(compgen -W "${words}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+    esac
+
+}
+complete -F _fetch_ebook_metadata fetch-ebook-metadata
+
+_calibre_smtp()
+{
+    local cur opts
+    local IFS=$'|\t'
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    opts="--version|-h|--help|-l|--localhost|-o|--outbox|-f|--fork|-t|--timeout|-v|--verbose|-a|--attachment|-s|--subject|-r|--relay|--port|-u|--username|-p|--password|-e|--encryption-method"
+    words=""
+
+    case "${cur}" in
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+      *  )
+         COMPREPLY=( $(compgen -W "${words}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+    esac
+
+}
+complete -F _calibre_smtp calibre-smtp
+
+_calibre_server()
+{
+    local cur opts
+    local IFS=$'|\t'
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    opts="--version|-h|--help|-p|--port|-t|--timeout|--thread-pool|--password|--username|--develop|--max-cover|--max-opds-items|--max-opds-ungrouped-items|--url-prefix|--with-library|--pidfile|--daemonize|--restriction|--virtual-library|--auto-reload"
+    words=""
+
+    case "${cur}" in
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+      *  )
+         COMPREPLY=( $(compgen -W "${words}" -- ${cur}) )
+         COMPREPLY=( $( echo ${COMPREPLY[@]} | sed 's/ /\\ /g' | tr '\n' '\t' ) )
+         return 0
+         ;;
+    esac
+
+}
+complete -F _calibre_server calibre-server
+
+_calibre_debug()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--version -h --help -c --command -e --exec-file -f --subset-font -d --debug-device-driver -g --gui --gui-debug --show-gui-debug -w --viewer --paths --add-simple-plugin --reinitialize-db -p --py-console -m --inspect-mobi -t --tweak-book -s --shutdown-running-calibre --test-build -r --run-plugin"
+    pics="@(gif|bmp|jpg|jpeg|png|GIF|BMP|JPG|JPEG|PNG)"
+
+    case "${prev}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+    esac
+
+    case "${cur}" in
+      --cover )
+           _filedir ${pics}
+           return 0
+         ;;
+    
+      -* )
+         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+         return 0
+         ;;
+      *  )
+        _filedir '@(py|recipe|mobi|azw|azw3|docx|PY|RECIPE|MOBI|AZW|AZW3|DOCX)'
+        return 0
+        ;;
+    esac
+
+}
+complete -o filenames -F _calibre_debug calibre-debug
+
+
+_ebook_device_ls()
+{
+local pattern search listing prefix
+pattern="$1"
+search="$1"
+if [[ -n "{$pattern}" ]]; then
+    if [[ "${pattern:(-1)}" == "/" ]]; then
+    pattern=""
+    else
+    pattern="$(basename ${pattern} 2> /dev/null)"
+    search="$(dirname ${search} 2> /dev/null)"
+    fi
+fi
+
+if [[  "x${search}" == "x" || "x${search}" == "x." ]]; then
+    search="/"
+fi
+
+listing="$(ebook-device ls ${search} 2>/dev/null)"
+
+prefix="${search}"
+if [[ "x${prefix:(-1)}" != "x/" ]]; then
+    prefix="${prefix}/"
+fi
+
+echo $(compgen -P "${prefix}" -W "${listing}" "${pattern}")
+}
+
+_ebook_device()
+{
+local cur prev
+cur="${COMP_WORDS[COMP_CWORD]}"
+prev="${COMP_WORDS[COMP_CWORD-1]}"
+COMPREPLY=()
+case "${prev}" in
+    ls|rm|mkdir|touch|cat )
+        COMPREPLY=( $(_ebook_device_ls "${cur}") )
+        return 0
+        ;;
+    cp )
+        if [[ ${cur} == dev:* ]]; then
+        COMPREPLY=( $(_ebook_device_ls "${cur:7}") )
+        return 0
+        else
+        _filedir
+        return 0
+        fi
+        ;;
+    dev )
+        COMPREPLY=( $(compgen -W "cp ls rm mkdir touch cat info books df" "${cur}") )
+        return 0
+        ;;
+    * )
+        if [[ ${cur} == dev:* ]]; then
+        COMPREPLY=( $(_ebook_device_ls "${cur:7}") )
+        return 0
+        else
+        if [[ ${prev} == dev:* ]]; then
+            _filedir
+            return 0
+        else
+            COMPREPLY=( $(compgen -W "dev:" "${cur}") )
+            return 0
+        fi
+        return 0
+        fi
+    ;;
+esac
+}
+complete -o nospace  -F _ebook_device ebook-device
+
+complete -o nospace -C /opt/calibre/calibre-complete ebook-convert

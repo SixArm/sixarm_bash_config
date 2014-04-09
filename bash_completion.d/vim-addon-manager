@@ -1,0 +1,103 @@
+# vim-addon-manager: completion script for vim-addons
+# 
+# Copyright (c) 2007, Antonio Terceiro <terceiro@softwarelivre.org>
+# 
+# This program is free software, you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3, or (at your option)
+# any later version published by the Free Software Foundation.
+
+_complete_vim_addons() {
+
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+
+  commands="list status install remove disable amend files show"
+  any_command=$(echo $commands | sed -e 's/\s\+/|/g')
+
+  options="-h --help -r --registry-dir -s --source-dir -t --target-dir -v --verbose -y --system-dir -w --system-wide -q --query"
+  any_option=$(echo $options | sed -e 's/\s\+/|/g')
+
+  # complete commands
+  if [[ "$prev" == 'vim-addons' ]]; then
+    COMPREPLY=( $( compgen -W "$commands" -- $cur ) )
+    return 0
+  fi
+
+  # complete option names
+  if [[ "$cur" == -* ]]; then
+    COMPREPLY=( $( compgen -W "$options" -- $cur) )
+    return 0
+  fi
+
+  # complete directory name for some options
+  if [[ "$prev" == @(-r|--registry-dir|-s|--source-dir|-t|--target-dir|-y|--system-dir) ]]; then
+    COMPREPLY=( $( compgen -o dirnames -- $cur ) )
+    return 0
+  fi
+
+  command=''
+  target_dir=''
+  system_wide=''
+  system_dir=''
+  for (( i=0; i < ${#COMP_WORDS[@]}-1; i++)); do
+
+    # check for command
+    if [[ ${COMP_WORDS[i]} == @($any_command) ]]; then
+      command=${COMP_WORDS[i]}
+    fi
+
+    # check for -w or --system-wide
+    if [[ ${COMP_WORDS[i]} == @(-w|--system-wide) ]]; then
+      system_wide="--system-wide"
+    fi
+
+    if [[ $i -gt 0 ]]; then
+      # check for -t or --target-dir
+      if [[ ${COMP_WORDS[i-1]} == @(-t|--target-dir) ]]; then
+        target_dir="--target-dir ${COMP_WORDS[i]}"
+      fi
+
+      # check for -y or --system-dir
+      if [[ ${COMP_WORDS[i-1]} == @(-y|--system-dir) ]]; then
+        system_dir="--system-dir ${COMP_WORDS[i]}"
+      fi
+    fi
+
+  done
+
+  # build the query command
+  query="vim-addons status --query $system_wide $system_dir $target_dir"
+
+  # no command, cannot know how to complete
+  if [[ -z "$command" ]]; then
+    COMPREPLY=()
+    return 0;
+  fi
+
+  case "$command" in
+    # no addon names if command is 'list'
+    list)
+      COMPREPLY=()
+      ;;
+
+    # list only non-installed addons
+    install)
+      COMPREPLY=( $(  $query | grep -e "^$cur" | grep -v -e "installed$" | sed -e 's/^\(\S\+\).*/\1/' )  )
+      ;;
+
+    # list only installed addons
+    remove|disable|amend)
+      COMPREPLY=( $(  $query | grep -e "^$cur" | grep -e "installed$" | sed -e 's/^\(\S\+\).*/\1/' )  )
+      ;;
+
+    # complete addon names
+    *)
+      COMPREPLY=($(grep -h "^addon: $cur" /usr/share/vim/registry/*.yaml | sed -e 's/^addon:\s*//'))
+      ;;
+  esac
+
+}
+complete -F _complete_vim_addons -o default vim-addons
+
+# vim: sw=2 expandtab ft=sh
