@@ -130,16 +130,16 @@ shopt -s cdspell
 ##############################################################
 
 x=bash_scripts
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f ] && source $f; done
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
 x=bash_aliases
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f ] && source $f; done
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
-# enable bash completion in interactive shells
+x=bash_completion
+# we only need completion if we're in an interactive shel?
 if shopt -oq posix
 then
-  x=bash_completion
-  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d; do [ -r $f] && source $f; done
+  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f] && source $f; done
 fi
 
 
