@@ -18,6 +18,11 @@
 #    ~/.bash_aliases
 #    ~/.bash_aliases.d/*
 #    
+#    /etc/bash_functions
+#    /etc/bash_functions.d/*
+#    ~/.bash_functions
+#    ~/.bash_functions.d/*
+#
 #    /etc/bash_completion
 #    /etc/bash_completion.d/*
 #    ~/.bash_completion
@@ -152,6 +157,9 @@ x=bash_scripts
 for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
 x=bash_aliases
+for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
+
+x=bash_functions
 for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
 
 x=bash_completion
