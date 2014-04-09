@@ -1,8 +1,5 @@
 ## One Letter Shortcuts
 
-# d = directory jump
-[ -d /d ] && alias d="cd /d/; cd "
-
 # e = edit using emacs || vi
 hash emacs 2>&- && alias e='emacs -nw --color=no' || alias e='vi'
 
