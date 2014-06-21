@@ -179,20 +179,11 @@ environment=$(uname -o)
 case "`uname`" in
 
     CYGWIN*)
-      # Cygwin specific stuff goes here
-        PATH="$JAVA_HOME/bin:$PATH:./:/usr/share:/cygdrive/c/dev/Windows Resource Kits:/cygdrive/c/Program Files/Debugging Tools for Windows (x86):/cygdrive/c/dev/MySQL Server 5.0/bin/"
+      source /etc/bashrc_on_cygwin
     ;;
     
     Linux*)
-      # Linux specific stuff goes here
-        export JDK_HOME=~/apps/jdks/jdk
-        export JAVA_HOME=$JDK_HOME
-        
-        # this seems to make IntelliJ IDEA crash on startup so it's commented out: 
-        # export AWT_TOOLKIT="MToolkit"
-
-        export PATH="$JAVA_HOME/bin:$PATH:/home/tkirk/bin"
-        export CLASSPATH=/home/tkirk/apps/tomcat/common/lib/jsp-api.jar:/home/tkirk/apps/tomcat/common/lib/servlet-api.jar
+      source /etc/bashrc_on_linux
     ;;
     
     Darwin*)
