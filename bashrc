@@ -194,5 +194,10 @@ case "`uname`" in
         export PATH="$JAVA_HOME/bin:$PATH:/home/tkirk/bin"
         export CLASSPATH=/home/tkirk/apps/tomcat/common/lib/jsp-api.jar:/home/tkirk/apps/tomcat/common/lib/servlet-api.jar
     ;;
+    
+    Darwin*)
+      source /etc/bashrc_on_darwin
+    ;;
+    
 esac
 
