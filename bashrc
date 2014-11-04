@@ -174,7 +174,7 @@ fi
 #             Environment specific settings
 ##############################################################
 
-environment=$(uname -o)
+environment=$(uname -s)
 
 case "`uname`" in
 

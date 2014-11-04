@@ -3,6 +3,9 @@
 We create these files and directories in <code>/etc</code>:
 
     bashrc
+    bashrc_on_darwin
+    bashrc_on_cygwin
+    bashrc_on_linux
     bash_aliases
     bash_aliases.d/
     bash_completions
@@ -33,3 +36,15 @@ The main bashrc script will source all these locations if they exist, in order:
     /etc/bash_completions.d/*
     ~/.bash_completions
     ~/.bash_completions.d/*
+    
+Platform-specific code goes in platform-specific files:
+
+    
+    /etc/bashrc_on_cygwin # For Cygwin Windows Unix 
+    /etc/bashrc_on_darwin # For Mac OSX Darwin
+    /etc/bashrc_on_linux  # For Linux, Ubuntu, Debian, etc.
+    
+
+    
+        
+    
