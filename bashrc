@@ -1,23 +1,23 @@
 # System-wide bashrc file for interactive bash(1) shells.
 # Use this file to set up aliases, functions, and completions.
 #
-# To enable these items for login shells as well, 
+# To enable these items for login shells as well,
 # we can source this file in /etc/profile.
 #
 # ## What we load
 #
-# This bashrc script will source all these locations: 
-#    
+# This bashrc script will source all these locations:
+#
 #    /etc/bash_scripts
 #    /etc/bash_scripts.d/*
 #    ~/.bash_scripts
 #    ~/.bash_scripts.d/*
-#    
+#
 #    /etc/bash_aliases
 #    /etc/bash_aliases.d/*
 #    ~/.bash_aliases
 #    ~/.bash_aliases.d/*
-#    
+#
 #    /etc/bash_functions
 #    /etc/bash_functions.d/*
 #    ~/.bash_functions
@@ -31,12 +31,12 @@
 # ## Load details
 #
 # Since /etc/bashrc is typically included by ~/.bashrc,
-# and read every time a shell starts up, we can use /etc/bashrc 
-# file to include aliases, functions, and completions. 
+# and read every time a shell starts up, we can use /etc/bashrc
+# file to include aliases, functions, and completions.
 #
-# This is useful because bash aliases and functions do not 
-# behave like bash environment variables; the bash aliases 
-# and functions are not passed to other processes. 
+# This is useful because bash aliases and functions do not
+# behave like bash environment variables; the bash aliases
+# and functions are not passed to other processes.
 #
 # ## Example
 #
@@ -50,45 +50,45 @@
 #     chmod u+x ~/test_script.bash
 #     ~/.test_script.bash
 #
-# Executing the script will give you an error: 
-# 
+# Executing the script will give you an error:
+#
 #     testecho: command not found
 #
-# The error happens because aliases and functions are not passed 
-# to sub-processes. So, since ~/.bashrc is included with every 
-# shell (and typically includes /etc/bashrc), people use this 
+# The error happens because aliases and functions are not passed
+# to sub-processes. So, since ~/.bashrc is included with every
+# shell (and typically includes /etc/bashrc), people use this
 # file to set up aliases and functions so all of their shells have
 # the same customizations.
 #
-# ## Difference between /etc/profile and /etc/bashrc 
+# ## Difference between /etc/profile and /etc/bashrc
 #
-# /etc/profile and /etc/bashrc are similar, 
+# /etc/profile and /etc/bashrc are similar,
 # but traditionally have different purposes.
 #
-# /etc/profile is automatically loaded 
+# /etc/profile is automatically loaded
 # only if the shell is a login shell.
 #
 # /etc/bashrc is not automatically loaded.
 #
-# To load /etc/bashrc, for example in 
+# To load /etc/bashrc, for example in
 # your ~/.bashrc file:
 #
 #    if [ -f /etc/bashrc ] ; then
 #      . /etc/bashrc
 #    fi
 #
-# Because of the difference in load behavior, 
-# /etc/profile and /etc/bashr become specialized. 
+# Because of the difference in load behavior,
+# /etc/profile and /etc/bashr become specialized.
 #
-# /etc/profile contains system/global environment variables 
-# and startup programs. Since environment variables are 
+# /etc/profile contains system/global environment variables
+# and startup programs. Since environment variables are
 # persistent (each process started by a shell inherits them)
-# we only need to read them once. Similarly, once a startup 
+# we only need to read them once. Similarly, once a startup
 # program is launched, there is no need to start it again.
-# 
+#
 # One last bit to note. Both /etc/profile and /etc/bashrc contain
-# settings that can be overwritten by users. If you are a sysadmin, 
-# thatposes a problem if you want to impose a global change on all 
+# settings that can be overwritten by users. If you are a sysadmin,
+# thatposes a problem if you want to impose a global change on all
 # users. Of these two files, the only one that lets you make such a
 # change is /etc/profile. The reason for that is, a user can remove
 # the "if [ -f /etc/bashrc ]" line from ~/.bashrc, and any changes
@@ -106,6 +106,10 @@
 #
 # Credit for the comments above:
 # http://www.linuxquestions.org/questions/linux-general-1/etc-profile-v-s-etc-bashrc-273992/
+#
+# TODO: consider including https://github.com/mrzool/bash-sensible
+#
+##
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -181,14 +185,13 @@ case "`uname`" in
     CYGWIN*)
       source /etc/bashrc_on_cygwin
     ;;
-    
+
     Linux*)
       source /etc/bashrc_on_linux
     ;;
-    
+
     Darwin*)
       source /etc/bashrc_on_darwin
     ;;
-    
-esac
 
+esac
