@@ -5,36 +5,39 @@
 #
 # Syntax:
 #
-#     install [dir [dot]]
+#     ./install [dir [dot]]
 #
 # Install for the current user:
 #
-#     install
+#     ./install
 #
-# Install for all users, which may need root or sudo:
+# Install for all users, which may need sudo or root permission:
 #
-#     install /etc
+#     sudo ./install /etc
 #
 # Install for any path:
 #
-#     install /foo/goo/hoo
+#     sudo ./install /foo/goo/hoo
 #
 # Install for any path plus use a dot prefix to make the files hidden:
 #
-#     install /foo/goo/hoo .
+#     sudo ./install /foo/goo/hoo .
 #
 ##
 
 if [ "$#" -eq 0 ]; then
-  echo "zero"
   dir="$HOME"
   dot="."
 else
-  echo "some"
   dir="$1"
   dot="$2"
 fi
 
-for x in bash_aliases bash_aliases.d bash_completion bash_completions.d bash_functions bash_functions.d bash_scripts bash_scripts.d bashrc bashrc_on_cygwin bashrc_on_darwin bashrc_on_linux; do
-  cp -R "$x" "$dir/$dot$x"
+for x in bash_aliases bash_aliases.d bash_completion bash_completion.d bash_functions bash_functions.d bash_scripts bash_scripts.d bashrc bash_on_cygwin bash_on_darwin bash_on_linux; do
+  dst="$dir/$dot$x"
+  if [ -e "$dst" ]; then 
+    echo "Skipping $x because path aleady exists: $dst"
+  else 
+    cp -R "$x" "$dst"
+  fi
 done

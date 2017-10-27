@@ -160,21 +160,21 @@ shopt -s cdspell
 areas="bash_aliases bash_scripts bash_functions"
 
 if shopt -oq posix
-  areas="$areas bash_completions"
+  areas="$areas bash_completion"
 fi
 
 case "`uname`" in
 
     CYGWIN*)
-      areas="$areas bashrc_on_cygwin"
+      areas="$areas bash_on_cygwin"
     ;;
 
     Linux*)
-      areas="$areas bashrc_on_linux"
+      areas="$areas bash_on_linux"
     ;;
 
     Darwin*)
-      areas="$areas bashrc_on_darwin"
+      areas="$areas bash_on_darwin"
     ;;
 
 esac
