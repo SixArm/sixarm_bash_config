@@ -11,7 +11,7 @@
 #
 #     install
 #
-# Install for all users:
+# Install for all users, which may need root or sudo:
 #
 #     install /etc
 #
