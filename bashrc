@@ -159,7 +159,7 @@ shopt -s cdspell
 
 areas="bash_aliases bash_scripts bash_functions"
 
-if shopt -oq posix
+if shopt -oq posix; then
   areas="$areas bash_completion"
 fi
 
@@ -180,7 +180,7 @@ case "`uname`" in
 esac
 
 for area in $areas; do 
-  for f in /etc/$area /etc/$area.d/* ~/.$area ~/.$area.d/*; do 
-    [ -r $f ] && source $f
+  for f in /etc/$area /etc/$area.d/* ~/.$area ~/.$area.d/*; do
+    [ -r "$f" ] && source "$f"
   done
 done
