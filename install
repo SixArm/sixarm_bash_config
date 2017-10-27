@@ -36,5 +36,5 @@ else
 fi
 
 for x in bash_aliases bash_aliases.d bash_completion bash_completions.d bash_functions bash_functions.d bash_scripts bash_scripts.d bashrc bashrc_on_cygwin bashrc_on_darwin bashrc_on_linux; do
-  echo "$x" "$dir/$dot$x"
+  cp -R "$x" "$dir/$dot$x"
 done

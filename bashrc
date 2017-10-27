@@ -157,41 +157,30 @@ shopt -s cdspell
 #                      Includes
 ##############################################################
 
-x=bash_scripts
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
+areas="bash_aliases bash_scripts bash_functions"
 
-x=bash_aliases
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
-
-x=bash_functions
-for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f ] && source $f; done
-
-x=bash_completions
-# we only need completions when we're in an interactive shell
 if shopt -oq posix
-then
-  for f in /etc/$x /etc/$x.d/* ~/.$x ~/.$x.d/*; do [ -r $f] && source $f; done
+  areas="$areas bash_completions"
 fi
-
-
-##############################################################
-#             Environment specific settings
-##############################################################
-
-environment=$(uname -s)
 
 case "`uname`" in
 
     CYGWIN*)
-      source /etc/bashrc_on_cygwin
+      areas="$areas bashrc_on_cygwin"
     ;;
 
     Linux*)
-      source /etc/bashrc_on_linux
+      areas="$areas bashrc_on_linux"
     ;;
 
     Darwin*)
-      source /etc/bashrc_on_darwin
+      areas="$areas bashrc_on_darwin"
     ;;
 
 esac
+
+for area in $areas; do 
+  for f in /etc/$area /etc/$area.d/* ~/.$area ~/.$area.d/*; do 
+    [ -r $f ] && source $f
+  done
+done
