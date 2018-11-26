@@ -1,4 +1,4 @@
-# f = find text 
+# f = find text
 { hash rg       2>&- && alias f='rg'; } ||
 { hash ag       2>&- && alias f='ag'; } ||
 { hash ack-grep 2>&- && alias f='ack-grep'; } ||
