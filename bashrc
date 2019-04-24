@@ -6,27 +6,13 @@
 #
 # ## What we load
 #
-# This bashrc script will source all these locations:
+# This bashrc script will source these locations:
 #
-#    /etc/bash_scripts
-#    /etc/bash_scripts.d/*
-#    ~/.bash_scripts
-#    ~/.bash_scripts.d/*
+#    /etc/bash.d
+#    $XDG_CONFIG_HOME/bash.d
 #
-#    /etc/bash_aliases
-#    /etc/bash_aliases.d/*
-#    ~/.bash_aliases
-#    ~/.bash_aliases.d/*
+# XDG_CONFIG_HOME defaults to `$HOME/.config`.
 #
-#    /etc/bash_functions
-#    /etc/bash_functions.d/*
-#    ~/.bash_functions
-#    ~/.bash_functions.d/*
-#
-#    /etc/bash_completions
-#    /etc/bash_completions.d/*
-#    ~/.bash_completions
-#    ~/.bash_completions.d/*
 #
 # ## Load details
 #
@@ -42,17 +28,17 @@
 #
 # To see an example of this, do this at a command prompt:
 #
-#     alias testecho='echo this is a test!'
-#     cat > ~/test_script.bash << EOF
+#     alias example='echo this is a test!'
+#     cat > ~/example.bash << EOF
 #     !/bin/bash
-#     testecho
+#     example
 #     EOF
-#     chmod u+x ~/test_script.bash
-#     ~/.test_script.bash
+#     chmod u+x ~/example.bash
+#     ~/.example.bash
 #
 # Executing the script will give you an error:
 #
-#     testecho: command not found
+#     example: command not found
 #
 # The error happens because aliases and functions are not passed
 # to sub-processes. So, since ~/.bashrc is included with every
@@ -154,6 +140,98 @@ shopt -s cdspell
 
 
 ##############################################################
+#                SixArm Unix functions
+##############################################################
+
+##
+#
+# Output helpers
+##
+
+# out: print output message to stdout
+out() { printf %s\\n "$*" ; }
+
+# err: print error message to stderr
+err() { >&2 printf %s\\n "$*" ; }
+
+# die: print error message to stderr, then exit with error code 1
+die() { >&2 printf %s\\n "$*" ; exit 1 ; }
+
+# big: print a big banner to stdout, good for human readability
+big() { printf \\n###\\n#\\n#\ %s\\n#\\n###\\n\\n "$*"; }
+
+# log: print the current datestamp, the process id, and a message
+log() { printf '%s %s %s\n' "$( now )" $$ "$*" ; }
+
+# zid: generate a 32-bit secure random lowercase hex identifier
+zid() { hexdump -n 16 -v -e '16/1 "%02x" "\n"' /dev/random ; }
+
+##
+# Time helpers
+##
+
+# now: get the current datetime using ISO standard format.
+now() { date -u "+%Y-%m-%dT%H:%M:%S.%N+00:00" ; }
+
+# sec: get the current time in Unix seconds.
+sec() { date "+%s" ; }
+
+##
+# Number helpers
+##
+
+# int: convert a number string to an integer number string.
+int() { awk '{ print int($1) }' ; }
+
+# sum: print the sum of numbers
+sum() { awk '{for(i=1; i<=NF; i++) sum+=$i; } END {print sum}' ; }
+
+##
+# Run helpers
+##
+
+# cmd: return true iff a command exists
+cmd() { command -v "$1" >/dev/null 2>&1 ; }
+
+# exe: run all the executable commands in a given directory and subdirectories
+exe() { [ -d "$1" ] && find "$1" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec {} \; ; }
+
+##
+# Array helpers
+##
+
+# array_i: get the array item at index `i`.
+array_i() { [ $# == 3 ] && awk -F "$2" "{print \$$3}" <<< "$1" || awk "{print \$$2}" <<< "$1" ; }
+
+# array_n: get the array number of fields a.k.a. length a.k.a. size.
+array_n() { [ $# == 2 ] && awk -F "$2" "{print NF}"   <<< "$1" || awk "{print NF}" <<< "$1" ; }
+
+##
+# Assert helpers
+##
+
+# Assert an item is empty.
+assert_empty() { [ -z "$1" ] || err $FUNCNAME "$@" ; }
+
+# Assert an item is equal to another item.
+assert_equal() { [ "$1" = "$2" ] || err $FUNCNAME "$@" ; }
+
+# Assert an item matches a regular expression.
+assert_match() { [[ "$2" =~ $1 ]] || err $FUNCNAME "$@" ; }
+
+##
+# Home helpers
+##
+
+log_home() { out "${LOG_HOME:=$HOME/.log}" ; }
+data_home() { out "${XDG_DATA_HOME:=$HOME/.local/share}" ; }
+cache_home() { out "${XDG_CACHE_HOME:=$HOME/.cache}" ; }
+config_home() { out "${XDG_CONFIG_HOME:-$HOME/.config}" ; }
+runtime_home() { out "${XDG_RUNTIME_HOME:=$HOME/.runtime}" ; }
+temp_home() { out "$(mktemp -d -t "${1:-$(zid)}")"; }
+
+
+##############################################################
 #                      Includes
 ##############################################################
 
@@ -179,8 +257,8 @@ case "`uname`" in
 
 esac
 
-for area in $areas; do 
-  for f in /etc/$area /etc/$area.d/* ~/.$area ~/.$area.d/*; do
+for area in $areas; do
+  for f in /etc/bash.d/$area /etc/bash.d/$area.d/* ~/$(config_home)/bash.d/$area ~/$(config_home)/bash.d/$area.d/*; do
     [ -r "$f" ] && source "$f"
   done
 done
@@ -192,5 +270,3 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 # End Nix
-
-

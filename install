@@ -33,11 +33,9 @@ else
   dot="$2"
 fi
 
-for x in bash_aliases bash_aliases.d bash_completion bash_completion.d bash_functions bash_functions.d bash_scripts bash_scripts.d bashrc bash_on_cygwin bash_on_darwin bash_on_linux; do
-  dst="$dir/$dot$x"
-  if [ -e "$dst" ]; then 
+dst="$dir/$dot$x"
+if [ -e "$dst" ]; then
     echo "Skipping $x because path aleady exists: $dst"
-  else 
-    cp -R "$x" "$dst"
-  fi
-done
+    exit 1
+fi
+cp -R "bash.d" "$dst"
