@@ -1,20 +1,7 @@
-# System-wide bashrc file for interactive bash(1) shells.
-# Use this file to set up aliases, functions, and completions.
-#
-# To enable these items for login shells as well,
-# we can source this file in /etc/profile.
-#
-# ## What we load
-#
-# This bashrc script will source these locations:
-#
-#    /etc/bash.d
-#    $XDG_CONFIG_HOME/bash.d
-#
-# XDG_CONFIG_HOME defaults to `$HOME/.config`.
-#
-#
-# ## Load details
+#!/bin/bash
+
+##
+# Bash loading details
 #
 # Since /etc/bashrc is typically included by ~/.bashrc,
 # and read every time a shell starts up, we can use /etc/bashrc
@@ -97,54 +84,16 @@
 #
 ##
 
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+###########################################################################
+# SixArm Unix functions
+# 
+# These are general-purpose functions that our teams use in scripts, 
+# so we want to ensure that we load these functions first.
+###########################################################################
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-  debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, overwrite the one in /etc/profile)
-#PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-
-# set a plain prompt
-PS1='$ '
-
-# set a prefix for bash script debugging output that shows
-# the script name, line number and function name.
-PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: '
-
-# Commented out, don't overwrite xterm -T "title" -n "icontitle" by default.
-# If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*)
-#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-#    ;;
-#*)
-#    ;;
-#esac
-
-# Don't use ^D to exit
-set -o ignoreeof
-
-# turn on vi editing command line
-#set -o vi
-
-# turn on minor directory spellchecking for `cd`
-shopt -s cdspell
-
-
-##############################################################
-#                SixArm Unix functions
-##############################################################
 
 ##
-#
 # Output helpers
 ##
 
@@ -231,42 +180,49 @@ runtime_home() { out "${XDG_RUNTIME_HOME:=$HOME/.runtime}" ; }
 temp_home() { out "$(mktemp -d -t "${1:-$(zid)}")"; }
 
 
-##############################################################
-#                      Includes
-##############################################################
+###########################################################################
+# Includes
+#
+# We source all the relevant files inside the bash.d directory,
+# and choose the appropriate files for the platform.
+###########################################################################
 
-areas="bash_aliases bash_scripts bash_functions"
+
+##
+# Create a list of all the paths that we want to source.
+##
+
+paths="bash_aliases bash_functions bash_scripts"
 
 if shopt -oq posix; then
-  areas="$areas bash_completion"
+  paths="$paths bash_completion"
 fi
 
 case "`uname`" in
 
     CYGWIN*)
-      areas="$areas bash_on_cygwin"
+      paths="$paths bash_on_cygwin"
     ;;
 
     Linux*)
-      areas="$areas bash_on_linux"
+      paths="$paths bash_on_linux"
     ;;
 
     Darwin*)
-      areas="$areas bash_on_darwin"
+      paths="$areas bash_on_darwin"
     ;;
 
 esac
 
-for area in $areas; do
-  for f in /etc/bash.d/$area /etc/bash.d/$area.d/* ~/$(config_home)/bash.d/$area ~/$(config_home)/bash.d/$area.d/*; do
-    [ -r "$f" ] && source "$f"
+##
+# Source all the relevant files.
+##
+
+for path in $paths; do
+  # Find the files to source, using a cross-platform POSIX way,
+  # that will find files that are executable by the current user.
+  for file in $(find "bash.d/$path" -type f -name *.bash \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \;); do
+    echo "file:$file"
+    source "$file"
   done
 done
-
-[ -r "/etc/bashrc_$TERM_PROGRAM" ] && . "/etc/bashrc_$TERM_PROGRAM"
-
-# Nix
-if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-fi
-# End Nix
