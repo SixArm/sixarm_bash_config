@@ -192,10 +192,11 @@ temp_home() { out "$(mktemp -d -t "${1:-$(zid)}")"; }
 # Create a list of all the paths that we want to source.
 ##
 
-paths="bash_aliases bash_functions bash_scripts"
+my_home=$(dirname "$BASH_SOURCE")
+paths="bash_aliases.d bash_functions.d bash_scripts.d"
 
 if shopt -oq posix; then
-  paths="$paths bash_completion"
+  paths="$paths bash_completion.d"
 fi
 
 case "`uname`" in
@@ -209,7 +210,7 @@ case "`uname`" in
     ;;
 
     Darwin*)
-      paths="$areas bash_on_darwin.d"
+      paths="$paths bash_on_darwin.d"
     ;;
 
 esac
@@ -221,7 +222,7 @@ esac
 for path in $paths; do
   # Find the files to source, using a cross-platform POSIX way,
   # that will find files that are executable by the current user.
-  for file in $(find "bash.d/$path" -type f -name *.bash \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \;); do
+  for file in $(find "$my_home/bash.d/$path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \;); do
     echo "file:$file"
     source "$file"
   done
