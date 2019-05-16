@@ -221,9 +221,9 @@ esac
 
 for path in $paths; do
   # Find the files to source, using a cross-platform POSIX way,
-  # that will find files that are executable by the current user.
-  for file in $(find "$my_home/bash.d/$path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \;); do
-    echo "file:$file"
+  # that will find files that are executable by the current user,
+  # and will execute in a predicatble order i.e. in sort order.
+  for file in $(find "$my_home/bash.d/$path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -print | sort); do
     source "$file"
   done
 done
