@@ -193,24 +193,24 @@ temp_home() { out "$(mktemp -d -t "${1:-$(zid)}")"; }
 ##
 
 top_paths="$(dirname "$BASH_SOURCE")/bash.d"
-sub_paths="bash_aliases.d bash_functions.d bash_scripts.d"
+sub_paths="aliases functions scripts"
 
 if shopt -oq posix; then
-  sub_paths="$sub_paths bash_completion.d"
+  sub_paths="$sub_paths completions"
 fi
 
 case "`uname`" in
 
     CYGWIN*)
-      sub_paths="$sub_paths bash_on_cygwin.d"
+      sub_paths="$sub_paths platforms/cygwin"
     ;;
 
     Linux*)
-      sub_paths="$sub_paths bash_on_linux.d"
+      sub_paths="$sub_paths platforms/linux"
     ;;
 
     Darwin*)
-      sub_paths="$sub_paths bash_on_darwin.d"
+      sub_paths="$sub_paths platforms/darwin"
     ;;
 
 esac
