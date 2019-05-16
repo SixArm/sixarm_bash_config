@@ -1,2 +1,2 @@
-# d: directory jump
-[ -d /d ] && alias d="cd /d/; cd "
+# d: directory changer, such as by using a directory named `directly` that contains directory symlinks
+alias d="cd \"${XDG_CONFIG_HOME:-$HOME/.config}/directly\"; cd "
