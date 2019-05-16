@@ -192,25 +192,25 @@ temp_home() { out "$(mktemp -d -t "${1:-$(zid)}")"; }
 # Create a list of all the paths that we want to source.
 ##
 
-my_home=$(dirname "$BASH_SOURCE")
-paths="bash_aliases.d bash_functions.d bash_scripts.d"
+top_paths="$(dirname "$BASH_SOURCE")/bash.d"
+sub_paths="bash_aliases.d bash_functions.d bash_scripts.d"
 
 if shopt -oq posix; then
-  paths="$paths bash_completion.d"
+  sub_paths="$sub_paths bash_completion.d"
 fi
 
 case "`uname`" in
 
     CYGWIN*)
-      paths="$paths bash_on_cygwin.d"
+      sub_paths="$sub_paths bash_on_cygwin.d"
     ;;
 
     Linux*)
-      paths="$paths bash_on_linux.d"
+      sub_paths="$sub_paths bash_on_linux.d"
     ;;
 
     Darwin*)
-      paths="$paths bash_on_darwin.d"
+      sub_paths="$sub_paths bash_on_darwin.d"
     ;;
 
 esac
@@ -219,11 +219,13 @@ esac
 # Source all the relevant files.
 ##
 
-for path in $paths; do
-  # Find the files to source, using a cross-platform POSIX way,
-  # that will find files that are executable by the current user,
-  # and will execute in a predicatble order i.e. in sort order.
-  for file in $(find "$my_home/bash.d/$path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -print | sort); do
-    source "$file"
+for top_path in $top_paths; do
+  for sub_path in $sub_paths; do
+    # Find the files to source, using a cross-platform POSIX way,
+    # that will find files that are executable by the current user,
+    # and will execute in a predicatble order i.e. in sort order.
+    for file in $(find "$top_path/$sub_path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -print | sort); do
+      source "$file"
+    done
   done
 done
