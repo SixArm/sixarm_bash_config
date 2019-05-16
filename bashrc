@@ -201,15 +201,15 @@ fi
 case "`uname`" in
 
     CYGWIN*)
-      paths="$paths bash_on_cygwin"
+      paths="$paths bash_on_cygwin.d"
     ;;
 
     Linux*)
-      paths="$paths bash_on_linux"
+      paths="$paths bash_on_linux.d"
     ;;
 
     Darwin*)
-      paths="$areas bash_on_darwin"
+      paths="$areas bash_on_darwin.d"
     ;;
 
 esac
