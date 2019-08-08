@@ -87,8 +87,8 @@
 
 ###########################################################################
 # SixArm Unix functions
-# 
-# These are general-purpose functions that our teams use in scripts, 
+#
+# These are general-purpose functions that our teams use in scripts,
 # so we want to ensure that we load these functions first.
 ###########################################################################
 
@@ -136,14 +136,24 @@ int() { awk '{ print int($1) }' ; }
 sum() { awk '{for(i=1; i<=NF; i++) sum+=$i; } END {print sum}' ; }
 
 ##
-# Run helpers
+# Validation helpers
 ##
 
 # cmd: return true iff a command exists
 cmd() { command -v "$1" >/dev/null 2>&1 ; }
 
-# exe: run all the executable commands in a given directory and subdirectories
-exe() { [ -d "$1" ] && find "$1" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec {} \; ; }
+##
+# Extensibility helpers
+##
+
+# dot_all: source all the executable files in a given directory and subdirectories
+dot_all() { find "$1:-.}" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec . {} \; ; }
+
+# run_all: run all the executable commands in a given directory and subdirectories
+run_all() { find "${1:-.}" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec {} \; ; }
+
+# rm_all: remove all files in a given directory and subdirectories-- use with caution
+rm_all() { find "${1:-.}" -type f -exec rm {} \; ; }
 
 ##
 # Array helpers
@@ -196,7 +206,7 @@ top_paths="$(dirname "$BASH_SOURCE")/bash.d"
 sub_paths="aliases functions scripts"
 
 if shopt -oq posix; then
-  sub_paths="$sub_paths completions"
+    sub_paths="$sub_paths completions"
 fi
 
 case "`uname`" in
@@ -220,12 +230,7 @@ esac
 ##
 
 for top_path in $top_paths; do
-  for sub_path in $sub_paths; do
-    # Find the files to source, using a cross-platform POSIX way,
-    # that will find files that are executable by the current user,
-    # and will execute in a predicatble order i.e. in sort order.
-    for file in $(find "$top_path/$sub_path" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -print | sort); do
-      source "$file"
+    for sub_path in $sub_paths; do
+        dot_all "$top_path/$sub_path"
     done
-  done
 done
