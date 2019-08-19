@@ -147,7 +147,7 @@ cmd() { command -v "$1" >/dev/null 2>&1 ; }
 ##
 
 # dot_all: source all the executable files in a given directory and subdirectories
-dot_all() { find "$1:-.}" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec . {} \; ; }
+dot_all() { find "${1:-.}" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec . {} \; ; }
 
 # run_all: run all the executable commands in a given directory and subdirectories
 run_all() { find "${1:-.}" -type f \( -perm -u=x -o -perm -g=x -o -perm -o=x \) -exec test -x {} \; -exec {} \; ; }
