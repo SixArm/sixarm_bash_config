@@ -1,4 +1,4 @@
-# SixArm.com → Bash shell → <br> /etc/bash* files for system setup
+# Bash shell configuration
 
 This repo has bash shell files, aliases, completions, functions, scripts, etc.
 
