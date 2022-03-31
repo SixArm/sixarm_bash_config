@@ -1,0 +1,15 @@
+
+#!/usr/bin/env bash
+
+# Credit https://github.com/igemnace/scripts/blob/c681640fd014d3559378bb66395bbc873625874d/notify-exit
+
+# Usage: notify-exit COMMAND [ARG ...]
+
+if "$@"; then
+	notify-send "Done" "$*"
+	exit 0
+else
+	exit_code=$?
+	notify-send "Exit $exit_code" "$*"
+	exit "$exit_code"
+fi
