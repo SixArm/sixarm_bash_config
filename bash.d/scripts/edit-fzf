@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Credit https://github.com/igemnace/scripts/blob/c681640fd014d3559378bb66395bbc873625874d/ez
+
+files=()
+while IFS= read -r -d '' file; do
+  files+=("$file")
+done < <(fzf --multi --print0)
+
+(( ${#files} )) || exit
+exec "${VISUAL:-${EDITOR:-vi}}" "$@" "${files[@]}
